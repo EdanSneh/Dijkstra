@@ -12,15 +12,16 @@ public class Main {
 	static HashMap<String, ArrayList<Object>> table = new HashMap<String, ArrayList<Object>>();
 	public static void main(String[] args) {
 		double distance;
-		String startnode = "A";
+		String startnode = "F";
+		String endnode = "B";
 		initialize(nodemap);
 		//start();
 		dijkstra(nodemap, startnode);
-		distance = dv.get(5);
-		System.out.println(nodes);
-		System.out.println(pv);
-		System.out.println(dv);
-		System.out.println(distance);
+		distance = dv.get(nodes.indexOf(endnode));
+//		System.out.println(nodes);
+//		System.out.println(pv);
+//		System.out.println(dv);
+		System.out.println(startnode+" -> "+ endnode+" : "+distance);
 	}
 
 	
