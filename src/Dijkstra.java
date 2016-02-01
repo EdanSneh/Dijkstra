@@ -1,8 +1,8 @@
 import java.util.HashMap;
 
-public class Map {
+public class Dijkstra {
 	static HashMap<String, HashMap<String, Integer>> nodemap = new HashMap<String, HashMap<String, Integer>>();
-	public Map(int i){
+	public Dijkstra(int i){
 		if(i == 1){
 			HashMap<String,Integer> nodeA = new HashMap<String, Integer>();
 			HashMap<String,Integer> nodeB = new HashMap<String, Integer>();

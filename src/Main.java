@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Set;
 //http://i.stack.imgur.com/90Qwu.png
 public class Main {
-	static Map map = new Map(1);
-	static HashMap<String, HashMap<String, Integer>> nodemap = Map.getmap();
+	static Dijkstra map = new Dijkstra(1);
+	static HashMap<String, HashMap<String, Integer>> nodemap = Dijkstra.getmap();
 	static ArrayList<Boolean> k = new ArrayList<Boolean>();
 	static ArrayList<String> pv = new ArrayList<String>();
 	static ArrayList<Double> dv = new ArrayList<Double>();
@@ -25,16 +25,16 @@ public class Main {
 	}
 
 	
-	private static double endpoint(HashMap<String, HashMap<String, Integer>> map, String start, String end) {
-		String previousnode = end;
-		double distance = 0;
-		while(previousnode != start){
-			System.out.println(dv.get(nodes.indexOf(previousnode)));
-			distance += dv.get(nodes.indexOf(previousnode));
-			previousnode = pv.get(nodes.indexOf(previousnode));
-		}
-		return distance;
-	}
+//	private static double endpoint(HashMap<String, HashMap<String, Integer>> map, String start, String end) {
+//		String previousnode = end;
+//		double distance = 0;
+//		while(previousnode != start){
+//			System.out.println(dv.get(nodes.indexOf(previousnode)));
+//			distance += dv.get(nodes.indexOf(previousnode));
+//			previousnode = pv.get(nodes.indexOf(previousnode));
+//		}
+//		return distance;
+//	}
 
 
 	private static void dijkstra(HashMap<String, HashMap<String, Integer>> map, String startnode) {
