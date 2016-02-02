@@ -2,58 +2,60 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 //http://i.stack.imgur.com/90Qwu.png
-public class Dijkstra{
+public class Dijkstra implements Shorty{
 	static Map map = new Map(1);
-	static HashMap<String, HashMap<String, Integer>> nodemap;
-	static ArrayList<Boolean> k = new ArrayList<Boolean>();
-	static ArrayList<String> pv = new ArrayList<String>();
-	static ArrayList<Double> dv = new ArrayList<Double>();
-	static ArrayList<String> nodes = new ArrayList<String>();
-	static HashMap<String, ArrayList<Object>> table = new HashMap<String, ArrayList<Object>>();
+	//static HashMap<String, HashMap<String, Integer>> nodemap;
+	ArrayList<Boolean> k = new ArrayList<Boolean>();
+	ArrayList<String> pv = new ArrayList<String>();
+	ArrayList<Integer> dv = new ArrayList<Integer>();
+	ArrayList<String> nodes = new ArrayList<String>();
+	HashMap<String, ArrayList<Object>> table = new HashMap<String, ArrayList<Object>>();
+	String sstartnode;
+	HashMap<String, ArrayList<String>> paths = new HashMap<String, ArrayList<String>>();
+	
+	/**
+	 * Constructor that takes in the start node and map and encapsulates the rest of the methods.
+	 * @param map
+	 * @param startnode
+	 */
 	public Dijkstra(HashMap<String, HashMap<String, Integer>> map, String startnode){
-		nodemap = map;
-		dijkstra(nodemap, startnode);
-		System.out.println(startnode+" -> "+ endnode+" : "+distance);
-	}
-	
-	public static int getDistance(){
+		initialize(map);
+		sstartnode = startnode;
+		
+		dijkstra(map, startnode);
+		pathconvertor(map);
 		
 	}
-	
-	public static ArrayList<String> next(String startnode, String endnode, ){
-		
+	/**
+	 * Creates all the different paths to different nodes
+	 * @param nodemap
+	 */
+	private void pathconvertor(HashMap<String, HashMap<String, Integer>> nodemap) {
+		Set<String> keys = nodemap.keySet();
+		for(String key: keys){
+			String previousnode = key;
+			ArrayList<String> path = new ArrayList<String>();
+			while(previousnode != sstartnode){
+				path.add(0, pv.get(nodes.indexOf(previousnode)));
+				previousnode = pv.get(nodes.indexOf(previousnode));
+			}
+			paths.put(key, path);
+		}
 	}
-//	public static void main(String[] args) {
-//		double distance;
-//		String startnode = "F";
-//		String endnode = "B";
-//		initialize(nodemap);
-//		//start();
-//		dijkstra(nodemap, startnode);
-//		distance = dv.get(nodes.indexOf(endnode));
-////		System.out.println(nodes);
-////		System.out.println(pv);
-////		System.out.println(dv);
-//		System.out.println(startnode+" -> "+ endnode+" : "+distance);
-//	}
 
-	
-//	private static double endpoint(HashMap<String, HashMap<String, Integer>> map, String start, String end) {
-//		String previousnode = end;
-//		double distance = 0;
-//		while(previousnode != start){
-//			System.out.println(dv.get(nodes.indexOf(previousnode)));
-//			distance += dv.get(nodes.indexOf(previousnode));
-//			previousnode = pv.get(nodes.indexOf(previousnode));
-//		}
-//		return distance;
-//	}
+	private void initialize(HashMap<String, HashMap<String, Integer>> nodemap){
+		Set<String> keys = nodemap.keySet();
+		for(String key: keys){
+			k.add(false);
+			pv.add(null);
+			dv.add(Integer.MAX_VALUE);
+			nodes.add(key);
+		}
+	}
 
-
-	private static void dijkstra(HashMap<String, HashMap<String, Integer>> map, String startnode) {
-		//TODO map the start node
+	private void dijkstra(HashMap<String, HashMap<String, Integer>> map, String startnode) {
 		if(!(k.contains(true))){
-			dv.set(nodes.indexOf(startnode), 0.0);
+			dv.set(nodes.indexOf(startnode), 0);
 		}
 		
 		k.set(nodes.indexOf(startnode), true);		
@@ -63,9 +65,9 @@ public class Dijkstra{
 			num = nodes.indexOf(key);
 			
 			//checks to see if distance of node is already greater in table
-			if(k.get(num) == false && dv.get(num) > (double)(map.get(startnode).get(key))){
+			if(k.get(num) == false && dv.get(num) > map.get(startnode).get(key)){
 				
-				dv.set(num, (double)(map.get(startnode).get(key))+dv.get(nodes.indexOf(startnode)));
+				dv.set(num, map.get(startnode).get(key)+dv.get(nodes.indexOf(startnode)));
 				pv.set(num, startnode);
 			}
 		}
@@ -77,13 +79,13 @@ public class Dijkstra{
 	}
 
 
-	private static int smallest(ArrayList<Double> list) {
+	private int smallest(ArrayList<Integer> list) {
 		if(list.size()<1){
 			System.err.println("ArrayList<Double> not long enough");
 			System.exit(1);
 		}
 		int index = 0;
-		double smallestval = list.get(0);
+		int smallestval = list.get(0);
 		
 		for(int j = 0; j<list.size(); j++){
 			if(k.get(j) == false){
@@ -103,13 +105,13 @@ public class Dijkstra{
 	}
 
 
-	private static void initialize(HashMap<String, HashMap<String, Integer>> nodemap){
-		Set<String> keys = nodemap.keySet();
-		for(String key: keys){
-			k.add(false);
-			pv.add(null);
-			dv.add(Double.POSITIVE_INFINITY);
-			nodes.add(key);
-		}
+	
+	
+	public int getDistance(String endnode){
+		return dv.get(nodes.indexOf(endnode));
+	}
+	
+	public ArrayList<String> next(String endnode){
+		return paths.get(endnode);
 	}
 }
