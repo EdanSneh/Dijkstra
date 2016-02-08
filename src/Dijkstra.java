@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Set;
 //http://i.stack.imgur.com/90Qwu.png
 public class Dijkstra implements Shorty{
-	static Map map = new Map(1);
+	
 	//static HashMap<String, HashMap<String, Integer>> nodemap;
 	ArrayList<Boolean> k = new ArrayList<Boolean>();
 	ArrayList<String> pv = new ArrayList<String>();
@@ -21,7 +21,7 @@ public class Dijkstra implements Shorty{
 	public Dijkstra(HashMap<String, HashMap<String, Integer>> map, String startnode){
 		initialize(map);
 		sstartnode = startnode;
-		
+		map.path();
 		dijkstra(map, startnode);
 		pathconvertor(map);
 		
@@ -42,7 +42,11 @@ public class Dijkstra implements Shorty{
 			paths.put(key, path);
 		}
 	}
-
+	
+	/**
+	 * Creates a blank table for the dijkstra
+	 * @param nodemap
+	 */
 	private void initialize(HashMap<String, HashMap<String, Integer>> nodemap){
 		Set<String> keys = nodemap.keySet();
 		for(String key: keys){
@@ -113,5 +117,15 @@ public class Dijkstra implements Shorty{
 	
 	public ArrayList<String> next(String endnode){
 		return paths.get(endnode);
+	}
+	/**
+	 * returns all the paths to strings in the Dijkstra
+	 */
+	public HashMap<String, String> path() {
+		Set<String> keys = this.keySet();
+		for(String key: keys){
+			
+		}
+		return null;
 	}
 }

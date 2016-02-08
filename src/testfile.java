@@ -3,8 +3,15 @@ import java.util.HashMap;
 
 
 public class testfile {
+	
+	/**
+	 * this file is only here to test out dijkstra
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		HashMap<String, HashMap<String, Integer>> nodemap = Map.getmap();
+		Map map = new Map(1);
+		HashMap<String, HashMap<String, Integer>> nodemap = map.getmap();
+		
 		String startnode = "A";
 		String endnode = "E";
 		int Distance;

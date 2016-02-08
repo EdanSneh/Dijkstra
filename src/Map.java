@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class Map {
-	static HashMap<String, HashMap<String, Integer>> nodemap = new HashMap<String, HashMap<String, Integer>>();
+	HashMap<String, HashMap<String, Integer>> nodemap = new HashMap<String, HashMap<String, Integer>>();
 	public Map(int i){
 		if(i == 1){
 			HashMap<String,Integer> nodeA = new HashMap<String, Integer>();
@@ -51,7 +51,8 @@ public class Map {
 		}
 		//System.out.println(nodemap.get("A").get("B"));
 	}
-	public static HashMap<String, HashMap<String, Integer>> getmap(){
+	public HashMap<String, HashMap<String, Integer>> getmap(){
+		System.out.println(nodemap);
 		return nodemap;
 	}
 }
