@@ -3,6 +3,7 @@ import java.util.HashMap;
 
 
 public interface Shorty {
-	ArrayList<String> next(String startnode);
-	HashMap<String, String> path(H);
+	ArrayList<String> next(String endnode, HashMap<String, HashMap<String, Integer>> map );
+	
+	
 }

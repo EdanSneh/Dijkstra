@@ -11,7 +11,8 @@ public class Dijkstra implements Shorty{
 	ArrayList<String> nodes = new ArrayList<String>();
 	HashMap<String, ArrayList<Object>> table = new HashMap<String, ArrayList<Object>>();
 	String sstartnode;
-	HashMap<String, ArrayList<String>> paths = new HashMap<String, ArrayList<String>>();
+	public HashMap<String, String> path = new HashMap<String, String>();
+	HashMap<String, ArrayList<String>> pathsarraylistformat = new HashMap<String, ArrayList<String>>();
 	
 	/**
 	 * Constructor that takes in the start node and map and encapsulates the rest of the methods.
@@ -20,14 +21,14 @@ public class Dijkstra implements Shorty{
 	 */
 	public Dijkstra(HashMap<String, HashMap<String, Integer>> map, String startnode){
 		initialize(map);
-		sstartnode = startnode;
-		map.path();
+		sstartnode = startnode;	
 		dijkstra(map, startnode);
-		pathconvertor(map);
+		generatepath(map);
+		//pathconvertor(map);
 		
 	}
 	/**
-	 * Creates all the different paths to different nodes
+	 * Creates all the different paths to different nodes in arraylist format
 	 * @param nodemap
 	 */
 	private void pathconvertor(HashMap<String, HashMap<String, Integer>> nodemap) {
@@ -35,11 +36,15 @@ public class Dijkstra implements Shorty{
 		for(String key: keys){
 			String previousnode = key;
 			ArrayList<String> path = new ArrayList<String>();
-			while(previousnode != sstartnode){
+			path.add(key);
+			
+			//creates the arraylist paths
+			while(!(previousnode.equals(sstartnode))){
 				path.add(0, pv.get(nodes.indexOf(previousnode)));
 				previousnode = pv.get(nodes.indexOf(previousnode));
 			}
-			paths.put(key, path);
+			
+			pathsarraylistformat.put(key, path);
 		}
 	}
 	
@@ -57,6 +62,11 @@ public class Dijkstra implements Shorty{
 		}
 	}
 
+	/**
+	 * This method adds all of the parameters from the map into the table
+	 * @param map
+	 * @param startnode
+	 */
 	private void dijkstra(HashMap<String, HashMap<String, Integer>> map, String startnode) {
 		if(!(k.contains(true))){
 			dv.set(nodes.indexOf(startnode), 0);
@@ -64,17 +74,19 @@ public class Dijkstra implements Shorty{
 		
 		k.set(nodes.indexOf(startnode), true);		
 		Set<String> keys = map.get(startnode).keySet();
+		//
 		for(String key: keys){
 			int num;	
 			num = nodes.indexOf(key);
 			
 			//checks to see if distance of node is already greater in table
-			if(k.get(num) == false && dv.get(num) > map.get(startnode).get(key)){
+			if(k.get(num) == false && dv.get(num) > map.get(startnode).get(key)+dv.get(nodes.indexOf(startnode))){
 				
 				dv.set(num, map.get(startnode).get(key)+dv.get(nodes.indexOf(startnode)));
 				pv.set(num, startnode);
 			}
 		}
+		
 		startnode = nodes.get(smallest(dv));
 		
 		if(k.contains(false)){
@@ -82,7 +94,11 @@ public class Dijkstra implements Shorty{
 		}
 	}
 
-
+	/**
+	 * finds the smallest value within an array of ints
+	 * @param list
+	 * @return
+	 */
 	private int smallest(ArrayList<Integer> list) {
 		if(list.size()<1){
 			System.err.println("ArrayList<Double> not long enough");
@@ -110,22 +126,29 @@ public class Dijkstra implements Shorty{
 
 
 	
-	
+	/**
+	 * get distance
+	 * @param endnode
+	 * @return
+	 */
 	public int getDistance(String endnode){
 		return dv.get(nodes.indexOf(endnode));
 	}
 	
-	public ArrayList<String> next(String endnode){
-		return paths.get(endnode);
+	public ArrayList<String> next(String endnode, HashMap<String, HashMap<String, Integer>> nodemap){
+		if(pathsarraylistformat.isEmpty()){
+			pathconvertor(nodemap);
+		}
+		return pathsarraylistformat.get(endnode);
 	}
 	/**
 	 * returns all the paths to strings in the Dijkstra
 	 */
-	public HashMap<String, String> path() {
-		Set<String> keys = this.keySet();
+	public void generatepath(HashMap<String, HashMap<String, Integer>> map) {
+		Set<String> keys = map.keySet();
 		for(String key: keys){
-			
+			path.put(key , pv.get(nodes.indexOf(key)));
 		}
-		return null;
 	}
+	
 }

@@ -1,5 +1,9 @@
 import java.util.HashMap;
-
+/***
+ * This class's purpose is to be an example HashMap
+ * @author 95018318
+ *
+ */
 public class Map {
 	HashMap<String, HashMap<String, Integer>> nodemap = new HashMap<String, HashMap<String, Integer>>();
 	public Map(int i){
